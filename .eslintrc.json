@@ -55,6 +55,14 @@
       {
         "allowSingleExtends": true
       }
+    ],
+    "react/jsx-props-no-spreading": [
+      "error", {
+      "custom": "ignore"
+    }],
+    "react/no-unstable-nested-components": [
+      "error",
+      { "allowAsProps": true  }
     ]
   },
   "settings": {
