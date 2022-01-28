@@ -63,7 +63,8 @@
     "react/no-unstable-nested-components": [
       "error",
       { "allowAsProps": true  }
-    ]
+    ],
+    "consistent-return": "off"
   },
   "settings": {
     "import/resolver": {
