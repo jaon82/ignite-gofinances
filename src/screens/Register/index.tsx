@@ -71,57 +71,55 @@ export default function Register() {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <Container>
-        <Header>
-          <Title>Cadastro</Title>
-        </Header>
-        <Form>
-          <Fields>
-            <InputForm
-              name="name"
-              control={control}
-              placeholder="Nome"
-              autoCapitalize="sentences"
-              autoCorrect={false}
-              error={errors.name && errors.name.message}
-            />
-            <InputForm
-              name="amount"
-              control={control}
-              placeholder="Preço"
-              keyboardType="numeric"
-              error={errors.amount && errors.amount.message}
-            />
-            <TransactionsTypes>
-              <TransactionTypeButton
-                type="up"
-                title="Incoming"
-                onPress={() => handleTransactionsTypeSelect('up')}
-                isActive={transactionType === 'up'}
-              />
-              <TransactionTypeButton
-                type="down"
-                title="Outcoming"
-                onPress={() => handleTransactionsTypeSelect('down')}
-                isActive={transactionType === 'down'}
-              />
-            </TransactionsTypes>
-            <CategorySelectButton
-              title={category.name}
-              onPress={handleOpenSelectCategoryModal}
-            />
-          </Fields>
-          <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
-        </Form>
-        <Modal visible={categoryModalOpen}>
-          <CategorySelect
-            category={category}
-            setCategory={setCategory}
-            closeSelectCategory={handleCloseSelectCategoryModal}
+    <Container>
+      <Header>
+        <Title>Cadastro</Title>
+      </Header>
+      <Form>
+        <Fields>
+          <InputForm
+            name="name"
+            control={control}
+            placeholder="Nome"
+            autoCapitalize="sentences"
+            autoCorrect={false}
+            error={errors.name && errors.name.message}
           />
-        </Modal>
-      </Container>
-    </TouchableWithoutFeedback>
+          <InputForm
+            name="amount"
+            control={control}
+            placeholder="Preço"
+            keyboardType="numeric"
+            error={errors.amount && errors.amount.message}
+          />
+          <TransactionsTypes>
+            <TransactionTypeButton
+              type="up"
+              title="Incoming"
+              onPress={() => handleTransactionsTypeSelect('up')}
+              isActive={transactionType === 'up'}
+            />
+            <TransactionTypeButton
+              type="down"
+              title="Outcoming"
+              onPress={() => handleTransactionsTypeSelect('down')}
+              isActive={transactionType === 'down'}
+            />
+          </TransactionsTypes>
+          <CategorySelectButton
+            title={category.name}
+            onPress={handleOpenSelectCategoryModal}
+          />
+        </Fields>
+        <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
+      </Form>
+      <Modal visible={categoryModalOpen}>
+        <CategorySelect
+          category={category}
+          setCategory={setCategory}
+          closeSelectCategory={handleCloseSelectCategoryModal}
+        />
+      </Modal>
+    </Container>
   );
 }
