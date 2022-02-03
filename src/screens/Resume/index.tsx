@@ -4,9 +4,21 @@ import { VictoryPie } from 'victory-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { addMonths, subMonths, format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 import HistoryCard from '../../components/HistoryCard';
-import { Container, Content, ChartContainer, Header, Title } from './styles';
+import {
+  Container,
+  Content,
+  ChartContainer,
+  Header,
+  Title,
+  MonthSelect,
+  MonthSelectButton,
+  Month,
+  MonthSelectIcon,
+} from './styles';
 import categories from '../../utils/categories';
 
 export interface TransactionData {
@@ -28,15 +40,28 @@ export interface CategoryData {
 
 export default function Resume() {
   const theme = useTheme();
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>(
     [],
   );
+
+  function handleDateChange(action: 'next' | 'prev') {
+    if (action === 'next') {
+      setSelectedDate(addMonths(selectedDate, 1));
+    } else {
+      setSelectedDate(subMonths(selectedDate, 1));
+    }
+  }
+
   async function loadData() {
     const dataKey = '@gofinances:transactions';
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
     const expenses = responseFormatted.filter(
-      (expense: TransactionData) => expense.type === 'down',
+      (expense: TransactionData) =>
+        expense.type === 'down' &&
+        new Date(expense.date).getMonth() === selectedDate.getMonth() &&
+        new Date(expense.date).getFullYear() === selectedDate.getFullYear(),
     );
     const expensesTotal = expenses.reduce(
       (acumulator: number, expense: TransactionData) => {
@@ -73,7 +98,7 @@ export default function Resume() {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [selectedDate]);
 
   return (
     <Container>
@@ -87,6 +112,15 @@ export default function Resume() {
           paddingBottom: useBottomTabBarHeight(),
         }}
       >
+        <MonthSelect>
+          <MonthSelectButton onPress={() => handleDateChange('prev')}>
+            <MonthSelectIcon name="chevron-left" />
+          </MonthSelectButton>
+          <Month>{format(selectedDate, 'MMMM, yyyy', { locale: ptBR })}</Month>
+          <MonthSelectButton onPress={() => handleDateChange('next')}>
+            <MonthSelectIcon name="chevron-right" />
+          </MonthSelectButton>
+        </MonthSelect>
         <ChartContainer>
           <VictoryPie
             data={totalByCategories}

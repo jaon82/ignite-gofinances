@@ -64,7 +64,8 @@
       "error",
       { "allowAsProps": true  }
     ],
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "import/no-duplicates": "off"
   },
   "settings": {
     "import/resolver": {
