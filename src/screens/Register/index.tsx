@@ -80,7 +80,6 @@ export default function Register() {
       category: category.key,
       date: new Date(),
     };
-    console.log(newTransaction);
     try {
       const data = await AsyncStorage.getItem(dataKey);
       const currentData = data ? JSON.parse(data) : [];
