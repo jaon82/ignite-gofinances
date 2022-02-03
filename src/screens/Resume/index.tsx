@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VictoryPie } from 'victory-native';
-
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+
 import HistoryCard from '../../components/HistoryCard';
 import { Container, Content, ChartContainer, Header, Title } from './styles';
 import categories from '../../utils/categories';
@@ -79,7 +80,13 @@ export default function Resume() {
       <Header>
         <Title>Resumo por categoria</Title>
       </Header>
-      <Content>
+      <Content
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingHorizontal: 24,
+          paddingBottom: useBottomTabBarHeight(),
+        }}
+      >
         <ChartContainer>
           <VictoryPie
             data={totalByCategories}
