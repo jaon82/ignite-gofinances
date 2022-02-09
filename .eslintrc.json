@@ -69,7 +69,8 @@
     "react/jsx-no-bind": ["off", {
       "allowArrowFunctions": true,
       "allowFunctions": true
-    }]
+    }],
+    "@typescript-eslint/no-non-null-assertion": "off"
   },
   "settings": {
     "import/resolver": {
