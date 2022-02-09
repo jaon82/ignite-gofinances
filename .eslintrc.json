@@ -65,7 +65,11 @@
       { "allowAsProps": true  }
     ],
     "consistent-return": "off",
-    "import/no-duplicates": "off"
+    "import/no-duplicates": "off",
+    "react/jsx-no-bind": ["off", {
+      "allowArrowFunctions": true,
+      "allowFunctions": true
+    }]
   },
   "settings": {
     "import/resolver": {
