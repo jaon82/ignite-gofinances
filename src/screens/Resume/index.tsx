@@ -23,6 +23,7 @@ import {
   LoadContainer,
 } from './styles';
 import categories from '../../utils/categories';
+import { useAuth } from '../../hooks/auth';
 
 export interface TransactionData {
   type: 'up' | 'down';
@@ -43,6 +44,7 @@ export interface CategoryData {
 
 export default function Resume() {
   const theme = useTheme();
+  const { user } = useAuth();
   const paddingBottom = useBottomTabBarHeight();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -60,7 +62,7 @@ export default function Resume() {
 
   async function loadData() {
     setIsLoading(true);
-    const dataKey = '@gofinances:transactions';
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
     const expenses = responseFormatted.filter(
