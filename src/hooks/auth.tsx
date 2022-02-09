@@ -1,4 +1,10 @@
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import * as AuthSession from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -33,6 +39,8 @@ interface AuthorizationResponse {
 const AuthContext = createContext({} as IAuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
+  const userStorageKey = '@gofinances:user';
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User>({} as User);
   async function signInWithGoogle() {
     try {
@@ -54,10 +62,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           photo: userInfo.picture,
         };
         setUser(userLogged);
-        await AsyncStorage.setItem(
-          '@gofinances:user',
-          JSON.stringify(userLogged),
-        );
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
       }
     } catch (error) {
       throw new Error(error);
@@ -79,15 +84,23 @@ function AuthProvider({ children }: AuthProviderProps) {
           photo: undefined,
         };
         setUser(userLogged);
-        await AsyncStorage.setItem(
-          '@gofinances:user',
-          JSON.stringify(userLogged),
-        );
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
       }
     } catch (error) {
       throw new Error(error);
     }
   }
+  useEffect(() => {
+    async function loadUserStorageData() {
+      const userStorage = await AsyncStorage.getItem(userStorageKey);
+      if (userStorage) {
+        const userLogged = JSON.parse(userStorage) as User;
+        setUser(userLogged);
+      }
+      setIsLoading(false);
+    }
+    loadUserStorageData();
+  }, []);
   return (
     <AuthContext.Provider value={{ user, signInWithGoogle, signInWithApple }}>
       {children}
