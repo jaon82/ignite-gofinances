@@ -28,6 +28,7 @@ import {
   LogoutButton,
   LoadContainer,
 } from './styles';
+import { useAuth } from '../../hooks/auth';
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
@@ -45,6 +46,7 @@ interface HighlightData {
 
 export default function Dashboard() {
   const theme = useTheme();
+  const { signOut } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
   const [highlightData, setHighlightData] = useState<HighlightData>(
@@ -164,11 +166,7 @@ export default function Dashboard() {
                   <UserName>Jean</UserName>
                 </User>
               </UserInfo>
-              <LogoutButton
-                onPress={() => {
-                  console.log('Logout');
-                }}
-              >
+              <LogoutButton onPress={signOut}>
                 <Icon name="power" />
               </LogoutButton>
             </UserWrapper>
