@@ -66,7 +66,7 @@
     ],
     "consistent-return": "off",
     "import/no-duplicates": "off",
-    "react/jsx-no-bind": ["off", {
+    "react/jsx-no-bind": ["error", {
       "allowArrowFunctions": true,
       "allowFunctions": true
     }],
